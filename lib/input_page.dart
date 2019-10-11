@@ -106,8 +106,14 @@ class _InputPageState extends State<InputPage> {
                  Text('cm', style: TextStyle(fontSize:15)),
                 ],
                ),
-
-                Slider(
+               SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  inactiveTrackColor: Color(0xFF8D8E98),
+                  activeTrackColor: Colors.white,
+                  thumbColor: Colors.pink,
+                  overlayColor: Color(0x29EB1555),  // Custom Thumb overlay Color
+                ),
+                child :Slider(
                   min: 110,
                   max: 250,
                 value: changeheight.toDouble(),
@@ -116,7 +122,7 @@ class _InputPageState extends State<InputPage> {
                     changeheight = newValue.round();
                   });
                 },
-
+              ),
               ),
                     ],
               ),
