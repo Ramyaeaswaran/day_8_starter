@@ -13,14 +13,16 @@ class _InputPageState extends State<InputPage> {
   Container dummy = Container(
     margin: EdgeInsets.all(12),
     decoration: BoxDecoration(
-
       color: Color(0xFF1D1F31),
       borderRadius: BorderRadius.all(Radius.circular(12),),),
   );
   Gender gender;
+  Color activetextcolor= Colors.white;
+  Color inactivetextcolor = Colors.white60;
   Color activecardcolor= Color(0xFF1D1F31);
   Color inactivecardcolor= Color(0xFF111328);
   double _value = 0.5;
+  int changeheight=120;
   @override
   Widget build(BuildContext context) {
   // Color backgroundcolormale =inactivecardcolor;
@@ -44,11 +46,13 @@ class _InputPageState extends State<InputPage> {
                   child: new ReuseableCard(
                     child: Column(
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.mars,size: 100,),
+                        Icon(FontAwesomeIcons.mars,size: 100,
+                          color:gender ==Gender.male ? activetextcolor : inactivetextcolor,
+                        ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('MALE',style: TextStyle(fontSize:20 ),),
+                        Text('MALE',style: TextStyle(fontSize:20, color:gender ==Gender.male ? activetextcolor : inactivetextcolor, ),),
                       ],
                     ),
                     color:gender ==Gender.male ? activecardcolor : inactivecardcolor,
@@ -64,11 +68,14 @@ class _InputPageState extends State<InputPage> {
                   child:  new ReuseableCard(
                     child: Column(
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.venus,size:100,),
+                        Icon(FontAwesomeIcons.venus,size:100,
+                          color:gender ==Gender.female ? activetextcolor : inactivetextcolor,
+                        ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('FEMALE',style: TextStyle(fontSize:20),),
+                        Text('FEMALE',style: TextStyle(fontSize:20,color:gender ==Gender.female ? activetextcolor : inactivetextcolor,),
+                          ),
                       ],
                     ),
                     color:gender ==Gender.female ? activecardcolor : inactivecardcolor,
@@ -95,17 +102,21 @@ class _InputPageState extends State<InputPage> {
                    crossAxisAlignment: CrossAxisAlignment.baseline,
                    textBaseline: TextBaseline.alphabetic,
                    children: <Widget>[
-                 Text('183', style: TextStyle(fontSize:30,fontWeight: FontWeight.bold)),
+                 Text('$changeheight', style: TextStyle(fontSize:40,fontWeight: FontWeight.bold)),
                  Text('cm', style: TextStyle(fontSize:15)),
                 ],
                ),
+
                 Slider(
-                value: _value,
+                  min: 110,
+                  max: 250,
+                value: changeheight.toDouble(),
                 onChanged: (double newValue) {
                   setState(() {
-                    _value = newValue;
+                    changeheight = newValue.round();
                   });
                 },
+
               ),
                     ],
               ),
