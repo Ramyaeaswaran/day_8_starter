@@ -6,7 +6,9 @@ class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
 }
-
+enum Gender{
+  male,female
+}
 class _InputPageState extends State<InputPage> {
   Container dummy = Container(
     margin: EdgeInsets.all(12),
@@ -15,9 +17,19 @@ class _InputPageState extends State<InputPage> {
       color: Color(0xFF1D1F31),
       borderRadius: BorderRadius.all(Radius.circular(12),),),
   );
-
+  Gender gender;
+  Color activecardcolor= Color(0xFF1D1F31);
+  Color inactivecardcolor= Color(0xFF111328);
+  double _value = 0.5;
   @override
   Widget build(BuildContext context) {
+  // Color backgroundcolormale =inactivecardcolor;
+  // Color backgroundcolorfemale =inactivecardcolor;
+  // if(gender==0) {
+  //   backgroundcolormale = activecardcolor;
+  // }else if(gender ==1){
+  //   backgroundcolorfemale =activecardcolor;
+  // }
     return Scaffold(
       appBar: AppBar(
         title: Text('BMI CALCULATOR'),
@@ -32,27 +44,72 @@ class _InputPageState extends State<InputPage> {
                   child: new ReuseableCard(
                     child: Column(
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.mars,size: 120,),
+                        Icon(FontAwesomeIcons.mars,size: 100,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text('MALE',style: TextStyle(fontSize:20 ),),
                       ],
                     ),
+                    color:gender ==Gender.male ? activecardcolor : inactivecardcolor,
+                    tapcallback:(){
+                      setState(() {
+                        gender=Gender.male;
+                      });
+                      print('male selected');
+                      },
                   ),
                 ),
                 Expanded(
                   child:  new ReuseableCard(
                     child: Column(
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.venus,size: 120,),
-                        Text('FEMALE',style: TextStyle(fontSize:20 ),),
+                        Icon(FontAwesomeIcons.venus,size:100,),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('FEMALE',style: TextStyle(fontSize:20),),
                       ],
                     ),
+                    color:gender ==Gender.female ? activecardcolor : inactivecardcolor,
+                    tapcallback:(){
+                      setState(() {
+                        gender=Gender.female;
+                      });
+                      print('female selected');
+                    },
                   ),
                 )
               ],
             ),
           ),
           Expanded(
-            child: ReuseableCard(),
+            child: ReuseableCard(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('HEIGHT', style: TextStyle(color: Colors.white70,fontSize:20)),
+               Row(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                   crossAxisAlignment: CrossAxisAlignment.baseline,
+                   textBaseline: TextBaseline.alphabetic,
+                   children: <Widget>[
+                 Text('183', style: TextStyle(fontSize:30,fontWeight: FontWeight.bold)),
+                 Text('cm', style: TextStyle(fontSize:15)),
+                ],
+               ),
+                Slider(
+                value: _value,
+                onChanged: (double newValue) {
+                  setState(() {
+                    _value = newValue;
+                  });
+                },
+              ),
+                    ],
+              ),
+            ),
           ),
           Expanded(
             child: Row(
@@ -75,19 +132,23 @@ class _InputPageState extends State<InputPage> {
 class ReuseableCard extends StatelessWidget {
   final Color color;
   final Widget child;
-  ReuseableCard({this.color = const Color(0xFF1D1F31),this.child});
+  final Function tapcallback;
+  ReuseableCard({this.color = const Color(0xFF1D1F31),this.child,this.tapcallback,});
  // const ReuseableCard({
 //    Key key,
 //  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.all(Radius.circular(12),),),
-      child: child,
+    return GestureDetector(
+      onTap:tapcallback ,
+      child: Container(
+        margin: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.all(Radius.circular(12),),),
+        child: child,
+      ),
     );
   }
 }
